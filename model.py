@@ -6,6 +6,16 @@ from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import pandas as pd
+import itertools
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+import pandas as pd
+import io
+import requests
 
 input_file = "data.csv"
 
@@ -14,6 +24,26 @@ input_file = "data.csv"
 df = pd.read_csv(input_file,
                  names=["bill_id", "status", "summary"],
                  encoding='cp1252')
+
+
+
+
+
+# Use a file that you download
+# input_file = "data.csv"
+# comma delimited is the default
+# df = pd.read_csv(input_file,
+#                  names=["bill_id", "status", "summary"],
+#                  encoding='cp1252')
+
+# use a premade file
+url="https://raw.githubusercontent.com/matthewdeanmartin/bills_with_nlp/main/data.csv"
+s=requests.get(url).content
+df=pd.read_csv(io.StringIO(s.decode('cp1252')),
+              names=["bill_id", "status", "summary"])
+
+df.head()
+
 
 # Getting features of dataframe
 # Same as SELECT feature1, feature2, feature3 FROM data
